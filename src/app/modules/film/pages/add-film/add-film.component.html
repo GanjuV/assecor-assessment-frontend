@@ -1,0 +1,45 @@
+<div class="container">
+  <app-form-shell>
+    <div form-content>
+      <form (ngSubmit)="addFilm(filmForm.value)" [formGroup]="filmForm" #filForm="ngForm" novalidate>
+        <h3 class="mat-h3 subheading-2">Fill details to add film</h3>
+        <div>
+          <mat-form-field appearance="outline">
+            <input matInput [placeholder]="'Name'" formControlName="name" />
+            <mat-error *ngIf="filmForm.controls.name.invalid"> Required </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type" required>
+              <mat-option *ngFor="let type of types" [value]="type.value">
+                {{ type.label }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="filmForm.controls.type.invalid"> Required </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Created By</mat-label>
+            <mat-select formControlName="createdBy" disabled>
+              <mat-option *ngFor="let created of createdBy" [value]="created.value">
+                {{ created.label }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="filmForm.controls.createdBy.invalid"> Required </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <input matInput [placeholder]="'Genre'" formControlName="genre" />
+            <mat-error *ngIf="filmForm.controls.genre.invalid"> Required </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <textarea matInput placeholder="Races" formControlName="races"> </textarea>
+            <mat-error *ngIf="filmForm.controls.races.hasError('maxlength')"> Max length is 30. </mat-error>
+          </mat-form-field>
+        </div>
+        <input class="hidden" type="submit" />
+      </form>
+    </div>
+  </app-form-shell>
+</div>

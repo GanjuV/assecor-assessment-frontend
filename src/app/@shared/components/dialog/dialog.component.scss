@@ -1,0 +1,51 @@
+@import "src/theme/theme-variables";
+
+.dialog-container {
+  height: 100%;
+
+  .dialog-header {
+    padding: 0.5rem;
+    background: $white-two;
+    display: flex;
+    align-items: center;
+
+    h2 {
+      font-weight: normal;
+      margin: 0;
+      color: $primary-pink;
+      margin-left: 1rem;
+    }
+  }
+
+  .mat-dialog-content {
+    margin: 0;
+    padding: 2rem;
+
+    h4 {
+      margin: 0;
+    }
+  }
+
+  .mat-dialog-content.full-screen {
+    min-height: 80%;
+  }
+
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    background-color: $white-two;
+    padding-right: 1rem;
+    bottom: 24px;
+    width: 100%;
+
+    button {
+      min-width: 100px;
+      margin-left: 1rem;
+    }
+  }
+
+  .full-screen {
+    // position: fixed;
+    width: 100%;
+  }
+}

@@ -17,7 +17,7 @@ export class ChipDataService {
       map((body: any) => {
         return body;
       }),
-      catchError(() => of('Error, could not found'))
+      catchError(() => of('Error, with network'))
     );
   }
 }

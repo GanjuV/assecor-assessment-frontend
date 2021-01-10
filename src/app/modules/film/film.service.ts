@@ -15,19 +15,20 @@ const routes = {
 export class FilmService {
   constructor(private httpClient: HttpClient) {}
 
-  getStarships(id: number): Observable<IFilm> {
+  getFilm(id: number): Observable<IFilm> {
     return this.httpClient.get(routes.byId(id)).pipe(
       map((body: any) => {
         return body;
       }),
-      catchError(() => of('Error, could not found'))
+      catchError(() => of('Error, with network'))
     );
   }
 
-  getAllStarships(): Observable<any> {
+  getAllFilms(): Observable<any> {
     return this.httpClient.get(routes.all()).pipe(
-      map((body: any) => body.results),
-      catchError(() => of('Error, could not found'))
+      map((body: any) => body.results)
+      // ,
+      // catchError((err) => of('Error, with network', err.message))
     );
   }
 }

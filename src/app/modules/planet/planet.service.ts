@@ -20,14 +20,14 @@ export class PlanetService {
       map((body: any) => {
         return body;
       }),
-      catchError(() => of('Error, could not found'))
+      catchError(() => of('Error, with network'))
     );
   }
 
   getAllPlanets(): Observable<any> {
     return this.httpClient.get(routes.all()).pipe(
       map((body: any) => body.results),
-      catchError(() => of('Error, could not found'))
+      catchError(() => of('Error, with network'))
     );
   }
 }

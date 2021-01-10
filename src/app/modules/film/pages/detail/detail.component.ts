@@ -39,7 +39,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   getFilmData() {
     this.isLoading = true;
     this._filmService
-      .getStarships(this.id)
+      .getFilm(this.id)
       .pipe(
         finalize(() => {
           this.isLoading = false;

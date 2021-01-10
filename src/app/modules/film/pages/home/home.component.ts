@@ -13,23 +13,32 @@ const log = new Logger('homeComponent');
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  quote: string | undefined;
   films: Array<any>;
   isLoading = false;
-
+  errorMsg: string;
+  showError = false;
   constructor(private _filmService: FilmService, private _router: Router) {}
 
   ngOnInit() {
     this.isLoading = true;
     this._filmService
-      .getAllStarships()
+      .getAllFilms()
       .pipe(
         finalize(() => {
           this.isLoading = false;
         })
       )
-      .subscribe((data: any) => {
-        this.films = data;
+      .subscribe({
+        next(data) {
+          this.showError = false;
+          this.films = data;
+        },
+        error(err) {
+          this.showError = true;
+          this.errorMsg = 'Error with in fetching data from swapi.dev API, please try later';
+          console.log(this.showError);
+          console.error('Error: ' + err.message);
+        },
       });
   }
 

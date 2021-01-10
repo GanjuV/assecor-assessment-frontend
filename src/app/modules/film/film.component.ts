@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
-import { FilmService } from './film.service';
+import { DialogData, DialogService } from '@app/@shared';
+import { AddFilmComponent } from './pages/add-film/add-film.component';
 
 @Component({
   selector: 'app-film',
@@ -8,7 +8,25 @@ import { FilmService } from './film.service';
   styleUrls: ['./film.component.scss'],
 })
 export class FilmComponent implements OnInit {
-  constructor() {}
+  constructor(private _dialogService: DialogService) {}
 
   ngOnInit() {}
+
+  openDialog() {
+    const data: DialogData = {
+      component: AddFilmComponent,
+      displayConfig: {
+        title: 'Add Film',
+        buttons: {
+          secondary: {
+            label: 'Cancel',
+          },
+          primary: {
+            label: 'Add Film',
+          },
+        },
+      },
+    };
+    this._dialogService.open(data, true);
+  }
 }

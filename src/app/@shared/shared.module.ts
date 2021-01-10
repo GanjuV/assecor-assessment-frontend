@@ -6,11 +6,13 @@ import { MaterialModule } from '@app/material.module';
 import { LoaderComponent } from './components/loader/loader.component';
 import { ChipsComponent } from './components/chips/chips.component';
 import { ChipDataService } from './services';
+import { DialogComponent, DialogService, DialogSubscribeService } from './components/dialog';
+import { FormShellComponent } from './components/form-shell/form-shell.component';
 
 @NgModule({
   imports: [FlexLayoutModule, MaterialModule, CommonModule],
-  declarations: [LoaderComponent, ChipsComponent],
-  exports: [LoaderComponent, ChipsComponent],
-  providers: [ChipDataService],
+  declarations: [LoaderComponent, ChipsComponent, DialogComponent, FormShellComponent],
+  exports: [LoaderComponent, ChipsComponent, DialogComponent, FormShellComponent],
+  providers: [ChipDataService, DialogService, DialogSubscribeService],
 })
 export class SharedModule {}

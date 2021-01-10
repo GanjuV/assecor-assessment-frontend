@@ -20,14 +20,14 @@ export class PeopleService {
       map((body: any) => {
         return body;
       }),
-      catchError(() => of('Error, could not found'))
+      catchError(() => of('Error, with network'))
     );
   }
 
   getAllPeople(): Observable<any> {
     return this.httpClient.get(routes.all()).pipe(
       map((body: any) => body.results),
-      catchError(() => of('Error, could not found'))
+      catchError(() => of('Error, with network'))
     );
   }
 }
