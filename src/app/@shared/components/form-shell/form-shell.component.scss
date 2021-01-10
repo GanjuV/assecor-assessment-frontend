@@ -1,0 +1,7 @@
+@import "src/theme/theme-variables";
+
+.form-container {
+  /deep/ .form-row {
+    margin: 0; //this is dummy, we can remove this
+  }
+}

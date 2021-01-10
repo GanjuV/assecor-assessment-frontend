@@ -1,0 +1,33 @@
+@import "src/theme/theme-variables";
+
+.container {
+  text-align: center;
+  padding: 1em;
+}
+
+.spanBorderBottom {
+  border-bottom: 1px solid #ddd;
+  width: 30px;
+  margin: auto;
+  position: relative;
+  top: -10px;
+}
+
+.marginBottom {
+  margin: 0 0 10px 0;
+}
+
+.paddingTop {
+  padding: 30px 0 0 0;
+}
+
+.marginTop {
+  padding: 80px 0 0 0;
+}
+
+.textContainer {
+  text-align: left;
+  .bolder {
+    font-weight: 500;
+  }
+}

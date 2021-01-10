@@ -1,0 +1,28 @@
+@import "src/theme/theme-variables";
+
+.container {
+  text-align: center;
+  padding: 1em;
+}
+
+.content {
+  padding: 16px;
+}
+
+.content > mat-card {
+  width: 200px;
+}
+
+.card {
+  transition: transform 450ms;
+  &:hover {
+    transform: scale(1.03);
+  }
+  .alignLeft {
+    text-align: left;
+  }
+  .link {
+    cursor: pointer;
+    color: $blue;
+  }
+}

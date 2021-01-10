@@ -1,0 +1,63 @@
+:host {
+  display: flex;
+  flex: 1;
+}
+
+.mat-sidenav {
+  min-width: 270px;
+  max-width: 28%;
+}
+
+.has-border {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-list {
+  padding-top: 0;
+}
+
+.mat-list-item {
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.active {
+  border-bottom: 1px solid #bbb;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.toolbar {
+  background-color: white;
+  height: 100px;
+  .menu-button {
+    margin-right: 1rem;
+  }
+
+  .wrapper {
+    padding: 30px 0;
+    margin: 0 40px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .container {
+    margin: 0 60px;
+  }
+}
+
+.router {
+  margin: 70px 100px;
+}
+
+.footer {
+  height: 65px;
+  padding: 30px 0;
+  margin: 0 40px;
+  border-top: 1px solid #ddd;
+  .container {
+    margin: 0 80px;
+  }
+}

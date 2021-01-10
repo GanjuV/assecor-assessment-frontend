@@ -1,0 +1,29 @@
+<div class="container">
+  <h1 class="mat-display-2">Planet</h1>
+  <app-loader [isLoading]="isLoading" size="1.5"></app-loader>
+
+  <div *ngIf="!isLoading" fxLayout="row wrap" fxLayoutGap="26px grid">
+    <div fxFlex="33.3%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let planet of planets; let i = index">
+      <mat-card class="mat-elevation-z4 card">
+        <img mat-card-image src="https://via.placeholder.com/100" />
+        <mat-card-header class="alignLeft">
+          <mat-card-title></mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="alignLeft">
+          <div>
+            <h2 class="mat-h2 mat-title bolder">{{ planet?.name }}</h2>
+          </div>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Rotation Period:</span>
+            <span>{{ planet?.rotation_period }}</span>
+          </div>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Climate:</span>
+            <span>{{ planet?.climate }}</span>
+          </div>
+          <span class="mat-small mat-caption link" (click)="openDetailPage(planets, i)">More information</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

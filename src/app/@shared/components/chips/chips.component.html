@@ -1,0 +1,13 @@
+<app-loader [isLoading]="chipData.length === 0" size="1.5"></app-loader>
+
+<mat-chip-list
+  *ngIf="chipData.length > 0"
+  class="example-chip"
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  (cdkDropListDropped)="drop($event)"
+>
+  <mat-chip class="example-box mat-body mat-body-1" cdkDrag *ngFor="let chip of chipData">
+    {{ chip.name }}
+  </mat-chip>
+</mat-chip-list>

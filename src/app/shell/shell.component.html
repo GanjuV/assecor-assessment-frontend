@@ -1,0 +1,23 @@
+<div fxLayout="column" fxFlexFill>
+  <mat-toolbar class="toolbar">
+    <div fxFlex class="wrapper">
+      <div fxFlex class="container">
+        <a mat-button routerLink="/film" routerLinkActive="active">
+          <span translate>Film</span>
+        </a>
+        <a mat-button routerLink="/people" routerLinkActive="active">
+          <span translate>Peoples</span>
+        </a>
+        <a mat-button routerLink="/planet" routerLinkActive="active">
+          <span translate>Planets</span>
+        </a>
+      </div>
+    </div>
+  </mat-toolbar>
+  <div class="router">
+    <router-outlet></router-outlet>
+  </div>
+  <footer fxFlexOffset="auto" class="footer">
+    <div class="container">data</div>
+  </footer>
+</div>
