@@ -2,57 +2,60 @@
   <app-loader [isLoading]="isLoading" size="1.5"></app-loader>
 
   <div *ngIf="!isLoading">
-    <h3 class="mat-h3 subheading-2">People Details</h3>
-    <div class="spanBorderBottom"></div>
-    <h1 class="mat-display-2 marginBottom">{{ people.name }}</h1>
-    <!-- <h3 class="mat-h3 subheading-2"> {{ people.height }} {{ people.gender }}</h3> -->
-    <div fxLayout="row wrap" fxLayoutGap="100px grid" class="marginTop">
-      <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="textContainer">
-        <h2 class="mat-h2 mat-title">Details:</h2>
-        <div>
-          <span class="mat-body mat-body-1 bolder">Gender:</span>
-          <span>{{ people.gender }}</span>
+    <div *ngIf="showError">{{ errorMsg }}</div>
+    <div *ngIf="!showError">
+      <h3 class="mat-h3 subheading-2">People Details</h3>
+      <div class="spanBorderBottom"></div>
+      <h1 class="mat-display-2 marginBottom">{{ people.name }}</h1>
+      <!-- <h3 class="mat-h3 subheading-2"> {{ people.height }} {{ people.gender }}</h3> -->
+      <div fxLayout="row wrap" fxLayoutGap="100px grid" class="marginTop">
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="textContainer">
+          <h2 class="mat-h2 mat-title">Details:</h2>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Gender:</span>
+            <span>{{ people.gender }}</span>
+          </div>
+
+          <div>
+            <span class="mat-body mat-body-1 bolder">Weight:</span>
+            <span>{{ people.mass }} kg</span>
+          </div>
+
+          <div>
+            <span class="mat-body mat-body-1 bolder">Height:</span>
+            <span>{{ people.height }} cm</span>
+          </div>
+
+          <div>
+            <span class="mat-body mat-body-1 bolder">Hair Color:</span>
+            <span>{{ people.hair_color }}</span>
+          </div>
+
+          <div>
+            <span class="mat-body mat-body-1 bolder">Skin Color:</span>
+            <span>{{ people.skin_color }}</span>
+          </div>
+
+          <div>
+            <span class="mat-body mat-body-1 bolder">Eye Color:</span>
+            <span>{{ people.eye_color }}</span>
+          </div>
+          <h2 class="mat-h2 mat-title paddingTop">Films:</h2>
+          <app-chips *ngIf="people.films.length > 0; else noData" [chipData]="films"></app-chips>
+
+          <h2 class="mat-h2 mat-title paddingTop">Starships:</h2>
+          <app-chips *ngIf="people.starships.length > 0; else noData" [chipData]="ship"></app-chips>
+
+          <h2 class="mat-h2 mat-title paddingTop">Vehicles:</h2>
+          <app-chips *ngIf="people.vehicles.length > 0; else noData" [chipData]="vehicles"></app-chips>
+
+          <ng-template #noData>
+            <p class="mat-small mat-caption">No Data.</p>
+          </ng-template>
         </div>
-
-        <div>
-          <span class="mat-body mat-body-1 bolder">Weight:</span>
-          <span>{{ people.mass }} kg</span>
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+          <img mat-card-image src="https://via.placeholder.com/100" />
         </div>
-
-        <div>
-          <span class="mat-body mat-body-1 bolder">Height:</span>
-          <span>{{ people.height }} cm</span>
-        </div>
-
-        <div>
-          <span class="mat-body mat-body-1 bolder">Hair Color:</span>
-          <span>{{ people.hair_color }}</span>
-        </div>
-
-        <div>
-          <span class="mat-body mat-body-1 bolder">Skin Color:</span>
-          <span>{{ people.skin_color }}</span>
-        </div>
-
-        <div>
-          <span class="mat-body mat-body-1 bolder">Eye Color:</span>
-          <span>{{ people.eye_color }}</span>
-        </div>
-        <h2 class="mat-h2 mat-title paddingTop">Films:</h2>
-        <app-chips *ngIf="people.films.length > 0; else noData" [chipData]="films"></app-chips>
-
-        <h2 class="mat-h2 mat-title paddingTop">Starships:</h2>
-        <app-chips *ngIf="people.starships.length > 0; else noData" [chipData]="ship"></app-chips>
-
-        <h2 class="mat-h2 mat-title paddingTop">Vehicles:</h2>
-        <app-chips *ngIf="people.vehicles.length > 0; else noData" [chipData]="vehicles"></app-chips>
-
-        <ng-template #noData>
-          <p class="mat-small mat-caption">No Data.</p>
-        </ng-template>
-      </div>
-      <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-        <img mat-card-image src="https://via.placeholder.com/100" />
       </div>
     </div>
   </div>

@@ -2,51 +2,54 @@
   <app-loader [isLoading]="isLoading" size="1.5"></app-loader>
 
   <div *ngIf="!isLoading">
-    <h3 class="mat-h3 subheading-2">Planet Details</h3>
-    <div class="spanBorderBottom"></div>
-    <h1 class="mat-display-2 marginBottom">{{ planet?.name }}</h1>
-    <div fxLayout="row wrap" fxLayoutGap="100px grid" class="marginTop">
-      <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="textContainer">
-        <h2 class="mat-h2 mat-title">Details:</h2>
-        <div>
-          <span class="mat-body mat-body-1 bolder">Rotation Period:</span>
-          <span>{{ planet?.rotation_period }}</span>
-        </div>
+    <div *ngIf="showError">{{ errorMsg }}</div>
+    <div *ngIf="!showError">
+      <h3 class="mat-h3 subheading-2">Planet Details</h3>
+      <div class="spanBorderBottom"></div>
+      <h1 class="mat-display-2 marginBottom">{{ planet?.name }}</h1>
+      <div fxLayout="row wrap" fxLayoutGap="100px grid" class="marginTop">
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="textContainer">
+          <h2 class="mat-h2 mat-title">Details:</h2>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Rotation Period:</span>
+            <span>{{ planet?.rotation_period }}</span>
+          </div>
 
-        <div>
-          <span class="mat-body mat-body-1 bolder">Orbital Period:</span>
-          <span>{{ planet?.orbital_period }}</span>
-        </div>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Orbital Period:</span>
+            <span>{{ planet?.orbital_period }}</span>
+          </div>
 
-        <div>
-          <span class="mat-body mat-body-1 bolder">Climate:</span>
-          <span>{{ planet?.climate }}</span>
-        </div>
-        <div>
-          <span class="mat-body mat-body-1 bolder">Gravity:</span>
-          <span>{{ planet?.gravity }}</span>
-        </div>
-        <div>
-          <span class="mat-body mat-body-1 bolder">Population:</span>
-          <span>{{ planet?.population }}</span>
-        </div>
-        <div>
-          <span class="mat-body mat-body-1 bolder">Surface Water:</span>
-          <span>{{ planet?.surface_water }}</span>
-        </div>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Climate:</span>
+            <span>{{ planet?.climate }}</span>
+          </div>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Gravity:</span>
+            <span>{{ planet?.gravity }}</span>
+          </div>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Population:</span>
+            <span>{{ planet?.population }}</span>
+          </div>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Surface Water:</span>
+            <span>{{ planet?.surface_water }}</span>
+          </div>
 
-        <h2 class="mat-h2 mat-title paddingTop">Residents:</h2>
-        <app-chips *ngIf="planet?.residents.length > 0; else noData" [chipData]="residents"></app-chips>
+          <h2 class="mat-h2 mat-title paddingTop">Residents:</h2>
+          <app-chips *ngIf="planet?.residents.length > 0; else noData" [chipData]="residents"></app-chips>
 
-        <h2 class="mat-h2 mat-title paddingTop">Films:</h2>
-        <app-chips *ngIf="planet?.films.length > 0; else noData" [chipData]="films"></app-chips>
+          <h2 class="mat-h2 mat-title paddingTop">Films:</h2>
+          <app-chips *ngIf="planet?.films.length > 0; else noData" [chipData]="films"></app-chips>
 
-        <ng-template #noData class="mat-body-1">
-          <p class="mat-small mat-caption">No Data.</p>
-        </ng-template>
-      </div>
-      <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-        <img mat-card-image src="https://via.placeholder.com/100" />
+          <ng-template #noData class="mat-body-1">
+            <p class="mat-small mat-caption">No Data.</p>
+          </ng-template>
+        </div>
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+          <img mat-card-image src="https://via.placeholder.com/100" />
+        </div>
       </div>
     </div>
   </div>

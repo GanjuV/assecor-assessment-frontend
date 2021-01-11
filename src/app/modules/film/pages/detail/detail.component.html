@@ -2,47 +2,50 @@
   <app-loader [isLoading]="isLoading" size="1.5"></app-loader>
 
   <div *ngIf="!isLoading">
-    <h3 class="mat-h3 subheading-2">Film Details</h3>
-    <div class="spanBorderBottom"></div>
-    <h1 class="mat-display-2 marginBottom">{{ film.title }}</h1>
-    <h3 class="mat-h3 subheading-2">Episode {{ film.episode_id }}</h3>
-    <div fxLayout="row wrap" fxLayoutGap="100px grid" class="marginTop">
-      <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="textContainer">
-        <h2 class="mat-h2 mat-title">Details:</h2>
-        <div>
-          <span class="mat-body mat-body-1 bolder">Director:</span>
-          <span>{{ film.director }}</span>
+    <div *ngIf="showError">{{ errorMsg }}</div>
+    <div *ngIf="!showError">
+      <h3 class="mat-h3 subheading-2">Film Details</h3>
+      <div class="spanBorderBottom"></div>
+      <h1 class="mat-display-2 marginBottom">{{ film.title }}</h1>
+      <h3 class="mat-h3 subheading-2">Episode {{ film.episode_id }}</h3>
+      <div fxLayout="row wrap" fxLayoutGap="100px grid" class="marginTop">
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="textContainer">
+          <h2 class="mat-h2 mat-title">Details:</h2>
+          <div>
+            <span class="mat-body mat-body-1 bolder">Director:</span>
+            <span>{{ film.director }}</span>
+          </div>
+
+          <div>
+            <span class="mat-body mat-body-1 bolder">Producer:</span>
+            <span>{{ film.producer }}</span>
+          </div>
+
+          <div>
+            <span class="mat-body mat-body-1 bolder">Date:</span>
+            <span>{{ film.release_date }}</span>
+          </div>
+          <p>
+            {{ film.opening_crawl }}
+          </p>
+          <h2 class="mat-h2 mat-title paddingTop">Character:</h2>
+          <app-chips *ngIf="film.characters.length > 0; else noData" [chipData]="character"></app-chips>
+
+          <h2 class="mat-h2 mat-title paddingTop">Planets:</h2>
+          <app-chips *ngIf="film.planets.length > 0; else noData" [chipData]="planet"></app-chips>
+
+          <h2 class="mat-h2 mat-title paddingTop">Starships:</h2>
+          <app-chips *ngIf="film.starships.length > 0; else noData" [chipData]="ship"></app-chips>
+
+          <h2 class="mat-h2 mat-title paddingTop">Species:</h2>
+          <app-chips *ngIf="film.species.length > 0; else noData" [chipData]="species"></app-chips>
+          <ng-template #noData class="mat-body-1">
+            <p class="mat-small mat-caption">No Data.</p>
+          </ng-template>
         </div>
-
-        <div>
-          <span class="mat-body mat-body-1 bolder">Producer:</span>
-          <span>{{ film.producer }}</span>
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+          <img mat-card-image src="https://via.placeholder.com/100" />
         </div>
-
-        <div>
-          <span class="mat-body mat-body-1 bolder">Date:</span>
-          <span>{{ film.release_date }}</span>
-        </div>
-        <p>
-          {{ film.opening_crawl }}
-        </p>
-        <h2 class="mat-h2 mat-title paddingTop">Character:</h2>
-        <app-chips *ngIf="film.characters.length > 0; else noData" [chipData]="character"></app-chips>
-
-        <h2 class="mat-h2 mat-title paddingTop">Planets:</h2>
-        <app-chips *ngIf="film.planets.length > 0; else noData" [chipData]="planet"></app-chips>
-
-        <h2 class="mat-h2 mat-title paddingTop">Starships:</h2>
-        <app-chips *ngIf="film.starships.length > 0; else noData" [chipData]="ship"></app-chips>
-
-        <h2 class="mat-h2 mat-title paddingTop">Species:</h2>
-        <app-chips *ngIf="film.species.length > 0; else noData" [chipData]="species"></app-chips>
-        <ng-template #noData class="mat-body-1">
-          <p class="mat-small mat-caption">No Data.</p>
-        </ng-template>
-      </div>
-      <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-        <img mat-card-image src="https://via.placeholder.com/100" />
       </div>
     </div>
   </div>

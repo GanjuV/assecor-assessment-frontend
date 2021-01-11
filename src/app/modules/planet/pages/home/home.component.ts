@@ -5,7 +5,7 @@ import { PlanetService } from '../../planet.service';
 import { finalize } from 'rxjs/operators';
 import { IPlanet } from '../detail/detail.interface';
 
-const log = new Logger('HomeComponent');
+const log = new Logger('PlanetHomeComponent');
 
 @Component({
   selector: 'app-planet-home',
@@ -15,6 +15,8 @@ const log = new Logger('HomeComponent');
 export class HomeComponent implements OnInit, OnDestroy {
   planets: IPlanet[];
   isLoading = false;
+  errorMsg: string;
+  showError = false;
 
   constructor(private _planetService: PlanetService, private _router: Router) {}
 
@@ -27,9 +29,18 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         })
       )
-      .subscribe((data: IPlanet[]) => {
-        this.planets = data;
-      });
+      .subscribe(
+        (data) => {
+          this.showError = false;
+          this.planets = data;
+          log.info(data);
+        },
+        (err) => {
+          this.showError = true;
+          this.errorMsg = 'Error with in fetching data from swapi.dev API, please try later';
+          log.error('Error: ' + err.message);
+        }
+      );
   }
 
   openDetailPage(item: any, count: number) {

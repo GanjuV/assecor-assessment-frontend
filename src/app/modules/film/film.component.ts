@@ -8,25 +8,7 @@ import { AddFilmComponent } from './pages/add-film/add-film.component';
   styleUrls: ['./film.component.scss'],
 })
 export class FilmComponent implements OnInit {
-  constructor(private _dialogService: DialogService) {}
+  constructor() {}
 
   ngOnInit() {}
-
-  openDialog() {
-    const data: DialogData = {
-      component: AddFilmComponent,
-      displayConfig: {
-        title: 'Add Film',
-        buttons: {
-          secondary: {
-            label: 'Cancel',
-          },
-          primary: {
-            label: 'Add Film',
-          },
-        },
-      },
-    };
-    this._dialogService.open(data, true);
-  }
 }

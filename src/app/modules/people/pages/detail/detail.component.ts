@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { PeopleService } from '../../people.service';
 import { IPeople } from './detail.interface';
 
-const log = new Logger('DetailComponent');
+const log = new Logger('PeopleDetailComponent');
 
 @Component({
   selector: 'app-people-detail',
@@ -23,6 +23,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   films: IChips[] = [];
   ship: IChips[] = [];
   vehicles: IChips[] = [];
+  errorMsg: string;
+  showError = false;
 
   private _routeParamsSubscription: any;
   constructor(
@@ -45,27 +47,35 @@ export class DetailComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         })
       )
-      .subscribe((data: IPeople) => {
-        this.people = data;
-        // films
-        forkJoin(data.films.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: IFilm) => {
-            this.films.push({ name: obj.title });
+      .subscribe(
+        (data) => {
+          this.people = data;
+          // films
+          forkJoin(data.films.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: IFilm) => {
+              this.films.push({ name: obj.title });
+            });
           });
-        });
-        // ship
-        forkJoin(data.starships.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: any) => {
-            this.ship.push({ name: obj.name });
+          // ship
+          forkJoin(data.starships.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: any) => {
+              this.ship.push({ name: obj.name });
+            });
           });
-        });
-        // character
-        forkJoin(data.vehicles.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: any) => {
-            this.vehicles.push({ name: obj.name });
+          // character
+          forkJoin(data.vehicles.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: any) => {
+              this.vehicles.push({ name: obj.name });
+            });
           });
-        });
-      });
+          log.info(data);
+        },
+        (err) => {
+          this.showError = true;
+          this.errorMsg = 'Error with in fetching data from swapi.dev API, please try later';
+          log.error('Error: ' + err.message);
+        }
+      );
   }
 
   getChipData(url: string) {

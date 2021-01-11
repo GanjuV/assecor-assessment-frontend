@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { IPeople } from './pages/detail/detail.interface';
 
 const routes = {
@@ -19,15 +19,11 @@ export class PeopleService {
     return this.httpClient.get(routes.byId(id)).pipe(
       map((body: any) => {
         return body;
-      }),
-      catchError(() => of('Error, with network'))
+      })
     );
   }
 
   getAllPeople(): Observable<any> {
-    return this.httpClient.get(routes.all()).pipe(
-      map((body: any) => body.results),
-      catchError(() => of('Error, with network'))
-    );
+    return this.httpClient.get(routes.all()).pipe(map((body: any) => body.results));
   }
 }

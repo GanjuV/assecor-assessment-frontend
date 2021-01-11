@@ -48,10 +48,6 @@
   }
 }
 
-.router {
-  margin: 70px 100px;
-}
-
 .footer {
   height: 65px;
   padding: 30px 0;
@@ -60,4 +56,14 @@
   .container {
     margin: 0 80px;
   }
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
 }

@@ -2,6 +2,7 @@
   <h1 class="mat-display-2">People</h1>
   <app-loader [isLoading]="isLoading" size="1.5"></app-loader>
   <div *ngIf="!isLoading" fxLayout="row wrap" fxLayoutGap="26px grid">
+    <div *ngIf="showError">{{ errorMsg }}</div>
     <div fxFlex="33.3%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let people of peoples; let i = index">
       <mat-card class="mat-elevation-z4 card">
         <img mat-card-image src="https://via.placeholder.com/100" />

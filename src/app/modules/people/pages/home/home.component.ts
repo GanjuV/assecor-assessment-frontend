@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Logger } from '@app/@core';
 import { PeopleService } from '../../people.service';
 import { finalize } from 'rxjs/operators';
 import { IPeople } from '../detail/detail.interface';
 
-const log = new Logger('homeComponent');
+const log = new Logger('PeopleHomeComponent');
 
 @Component({
   selector: 'app-people-home',
@@ -16,6 +15,8 @@ const log = new Logger('homeComponent');
 export class HomeComponent implements OnInit, OnDestroy {
   peoples: IPeople[];
   isLoading = false;
+  errorMsg: string;
+  showError = false;
 
   constructor(private _peopleService: PeopleService, private _router: Router) {}
 
@@ -28,9 +29,18 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         })
       )
-      .subscribe((data: any) => {
-        this.peoples = data;
-      });
+      .subscribe(
+        (data) => {
+          this.showError = false;
+          this.peoples = data;
+          log.info(data);
+        },
+        (err) => {
+          this.showError = true;
+          this.errorMsg = 'Error with in fetching data from swapi.dev API, please try later';
+          log.error('Error: ' + err.message);
+        }
+      );
   }
 
   openDetailPage(item: any, count: number) {

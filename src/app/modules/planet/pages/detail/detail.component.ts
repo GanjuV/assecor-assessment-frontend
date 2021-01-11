@@ -8,7 +8,7 @@ import { finalize } from 'rxjs/operators';
 import { PlanetService } from '../../planet.service';
 import { IPlanet } from './detail.interface';
 
-const log = new Logger('DetailComponent');
+const log = new Logger('PlanetDetailComponent');
 
 @Component({
   selector: 'app-planet-detail',
@@ -21,6 +21,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   planet: IPlanet;
   residents: IChips[] = [];
   films: IChips[] = [];
+  errorMsg: string;
+  showError = false;
 
   private _routeParamsSubscription: any;
   constructor(
@@ -43,22 +45,30 @@ export class DetailComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         })
       )
-      .subscribe((data: IPlanet) => {
-        this.planet = data;
-        // residents
-        forkJoin(data.residents.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: any) => {
-            this.residents.push({ name: obj.name });
+      .subscribe(
+        (data) => {
+          this.showError = false;
+          this.planet = data;
+          // residents
+          forkJoin(data.residents.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: any) => {
+              this.residents.push({ name: obj.name });
+            });
           });
-        });
-        // films
-        console.log(data.films, data.residents);
-        forkJoin(data.films.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: any) => {
-            this.films.push({ name: obj.title });
+          // films
+          console.log(data.films, data.residents);
+          forkJoin(data.films.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: any) => {
+              this.films.push({ name: obj.title });
+            });
           });
-        });
-      });
+        },
+        (err) => {
+          this.showError = true;
+          this.errorMsg = 'Error with in fetching data from swapi.dev API, please try later';
+          log.error('Error: ' + err.message);
+        }
+      );
   }
 
   getChipData(url: string) {

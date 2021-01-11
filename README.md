@@ -30,7 +30,7 @@ src/                         project source code
 |  |- app.component.*        app root component (shell)
 |  |- app.module.ts          app root module definition
 |  |- app-routing.module.ts  app routes
-|  +- ...                    additional modules and components
+|  |- modules                additional modules and components like film, people, planet etc
 |- assets/                   app assets (images, fonts, sounds...)
 |- environments/             values for various build environments
 |- theme/                    app global scss variables and theme

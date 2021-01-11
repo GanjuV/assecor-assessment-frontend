@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PeopleModule } from './modules/people/people.module';
 import { PlanetModule } from './modules/planet/planet.module';
 import { AppComponent } from './app.component';
+import { AppHomeModule } from './modules/app-home/app-home.module';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { AppComponent } from './app.component';
     FilmModule,
     PeopleModule,
     PlanetModule,
+    AppHomeModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],

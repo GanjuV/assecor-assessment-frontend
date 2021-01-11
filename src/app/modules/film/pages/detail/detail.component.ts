@@ -8,7 +8,7 @@ import { finalize } from 'rxjs/operators';
 import { FilmService } from '../../film.service';
 import { IFilm } from './detail.interface';
 
-const log = new Logger('DetailComponent');
+const log = new Logger('FilmDetailComponent');
 
 @Component({
   selector: 'app-film-detail',
@@ -23,6 +23,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   planet: IChips[] = [];
   ship: IChips[] = [];
   species: IChips[] = [];
+  errorMsg: string;
+  showError = false;
 
   private _routeParamsSubscription: any;
   constructor(
@@ -45,34 +47,42 @@ export class DetailComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         })
       )
-      .subscribe((data: IFilm) => {
-        this.film = data;
-
-        // character
-        forkJoin(data.characters.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: any) => {
-            this.character.push({ name: obj.name });
+      .subscribe(
+        (data) => {
+          this.showError = false;
+          this.film = data;
+          log.info(data);
+          // character
+          forkJoin(data.characters.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: any) => {
+              this.character.push({ name: obj.name });
+            });
           });
-        });
-        // planet
-        forkJoin(data.planets.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: any) => {
-            this.planet.push({ name: obj.name });
+          // planet
+          forkJoin(data.planets.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: any) => {
+              this.planet.push({ name: obj.name });
+            });
           });
-        });
-        // ship
-        forkJoin(data.starships.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: any) => {
-            this.ship.push({ name: obj.name });
+          // ship
+          forkJoin(data.starships.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: any) => {
+              this.ship.push({ name: obj.name });
+            });
           });
-        });
-        // character
-        forkJoin(data.species.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-          ele.forEach((obj: any) => {
-            this.species.push({ name: obj.name });
+          // character
+          forkJoin(data.species.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
+            ele.forEach((obj: any) => {
+              this.species.push({ name: obj.name });
+            });
           });
-        });
-      });
+        },
+        (err) => {
+          this.showError = true;
+          this.errorMsg = 'Error with in fetching data from swapi.dev API, please try later';
+          log.error('Error: ' + err.message);
+        }
+      );
   }
 
   getChipData(url: string) {
