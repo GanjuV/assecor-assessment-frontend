@@ -41,7 +41,7 @@ src/                         project source code
 |- polyfills.ts              polyfills needed by Angular
 +- test.ts                   unit tests entry point
 reports/                     test and coverage reports
-proxy.conf.js                backend proxy configuration
+proxy.conf.js                backend proxy configuration which is set to `https://swapi.dev/api`
 ```
 
 # Main tasks
