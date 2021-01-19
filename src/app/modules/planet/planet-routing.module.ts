@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { extract } from '@app/i18n';
 import { Shell } from '@app/shell/shell.service';
 import { DetailComponent } from './pages/detail/detail.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -14,8 +13,8 @@ const routes: Routes = [
       path: 'planet',
       component: PlanetComponent,
       children: [
-        { path: '', component: HomeComponent, data: { title: extract('Planet') } },
-        { path: 'detail/:id', component: DetailComponent, data: { title: extract('Planet Detail') } },
+        { path: '', component: HomeComponent, data: { title: 'Planet' } },
+        { path: 'detail/:id', component: DetailComponent, data: { title: 'Planet Detail' } },
       ],
     },
   ]),

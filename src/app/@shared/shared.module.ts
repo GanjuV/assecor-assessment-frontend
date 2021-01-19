@@ -14,5 +14,6 @@ import { FormShellComponent } from './components/form-shell/form-shell.component
   declarations: [LoaderComponent, ChipsComponent, DialogComponent, FormShellComponent],
   exports: [LoaderComponent, ChipsComponent, DialogComponent, FormShellComponent],
   providers: [ChipDataService, DialogService, DialogSubscribeService],
+  entryComponents: [DialogComponent],
 })
 export class SharedModule {}

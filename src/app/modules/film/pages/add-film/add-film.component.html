@@ -2,7 +2,7 @@
   <app-form-shell>
     <div form-content>
       <form (ngSubmit)="addFilm(filmForm.value)" [formGroup]="filmForm" #filForm="ngForm" novalidate>
-        <h3 class="mat-h3 subheading-2">Enter Fill details to add a film</h3>
+        <h3 class="mat-h3 subheading-2">Enter details to add a film</h3>
         <div>
           <mat-form-field appearance="outline">
             <input matInput [placeholder]="'Name'" formControlName="name" />

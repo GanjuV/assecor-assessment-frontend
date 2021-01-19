@@ -4,7 +4,7 @@ import { Logger } from '@app/@core';
 import { IChips } from '@app/@shared/components/chips/chips.interface';
 import { ChipDataService } from '@app/@shared/services';
 import { IFilm } from '@app/modules/film/pages/detail/detail.interface';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { PeopleService } from '../../people.service';
 import { IPeople } from './detail.interface';
@@ -25,7 +25,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   vehicles: IChips[] = [];
   errorMsg: string;
   showError = false;
-
+  private _subscription: Subscription;
   private _routeParamsSubscription: any;
   constructor(
     private _peopleService: PeopleService,
@@ -40,7 +40,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   getFilmData() {
     this.isLoading = true;
-    this._peopleService
+    this._subscription = this._peopleService
       .getStarships(this.id)
       .pipe(
         finalize(() => {
@@ -52,21 +52,15 @@ export class DetailComponent implements OnInit, OnDestroy {
           this.people = data;
           // films
           forkJoin(data.films.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: IFilm) => {
-              this.films.push({ name: obj.title });
-            });
+            this.getData(ele, 'title', this.films);
           });
           // ship
           forkJoin(data.starships.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: any) => {
-              this.ship.push({ name: obj.name });
-            });
+            this.getData(ele, 'name', this.ship);
           });
           // character
           forkJoin(data.vehicles.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: any) => {
-              this.vehicles.push({ name: obj.name });
-            });
+            this.getData(ele, 'name', this.vehicles);
           });
           log.info(data);
         },
@@ -76,6 +70,12 @@ export class DetailComponent implements OnInit, OnDestroy {
           log.error('Error: ' + err.message);
         }
       );
+  }
+
+  getData(dataObj: any, key: string, arry: any) {
+    dataObj.forEach((obj: any) => {
+      arry.push({ name: obj[key] });
+    });
   }
 
   getChipData(url: string) {
@@ -90,5 +90,6 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._routeParamsSubscription.unsubscribe();
+    this._subscription.unsubscribe();
   }
 }

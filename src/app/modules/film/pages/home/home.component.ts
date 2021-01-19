@@ -6,6 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { IFilm } from '../detail/detail.interface';
 import { AddFilmComponent } from '../add-film/add-film.component';
 import { DialogData, DialogService } from '@app/@shared';
+import { Subscription } from 'rxjs';
 
 const log = new Logger('FilmHomeComponent');
 
@@ -19,11 +20,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMsg: string;
   showError = false;
+  private _subscription: Subscription;
+
   constructor(private _filmService: FilmService, private _router: Router, private _dialogService: DialogService) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this._filmService
+    this._subscription = this._filmService
       .getAllFilms()
       .pipe(
         finalize(() => {
@@ -34,7 +37,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         (data) => {
           this.showError = false;
           this.films = data;
-          console.log(data);
           log.info(data);
         },
         (err) => {
@@ -45,11 +47,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       );
   }
 
-  openDetailPage(item: any, count: number) {
-    count += 2;
-    this._router.navigate(['film/detail', count], {
-      replaceUrl: true,
-    });
+  openDetailPage(item: IFilm, index: number) {
+    this._router.navigate(['film/detail', ++index]);
   }
 
   openDialog() {
@@ -70,5 +69,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._dialogService.open(data, true);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
 }

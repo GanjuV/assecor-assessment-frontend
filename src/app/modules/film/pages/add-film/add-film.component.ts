@@ -26,9 +26,9 @@ export class AddFilmComponent implements OnInit, OnDestroy {
     { label: 'Hot Planet', value: 'p3' },
   ];
   createdBy: ISelectBox[] = [
-    { label: 'Desert Planet', value: 'p1' },
-    { label: 'Cold Planet', value: 'p2' },
-    { label: 'Hot Planet', value: 'p3' },
+    { label: 'Label 1', value: 'p1' },
+    { label: 'Label 2', value: 'p2' },
+    { label: 'Label 3', value: 'p3' },
   ];
   constructor(
     private _addFilmFormService: AddFilmFormService,
@@ -48,7 +48,7 @@ export class AddFilmComponent implements OnInit, OnDestroy {
       this._addFilmFormService.validateAllFormFields(this.filmForm);
       return;
     }
-    console.log(data);
+    log.info(data);
     // TO POST Call
   }
 

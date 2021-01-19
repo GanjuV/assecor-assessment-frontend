@@ -4,6 +4,7 @@ import { Logger } from '@app/@core';
 import { PeopleService } from '../../people.service';
 import { finalize } from 'rxjs/operators';
 import { IPeople } from '../detail/detail.interface';
+import { Subscription } from 'rxjs';
 
 const log = new Logger('PeopleHomeComponent');
 
@@ -17,12 +18,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMsg: string;
   showError = false;
+  private _subscription: Subscription;
 
   constructor(private _peopleService: PeopleService, private _router: Router) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this._peopleService
+    this._subscription = this._peopleService
       .getAllPeople()
       .pipe(
         finalize(() => {
@@ -44,11 +46,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openDetailPage(item: any, count: number) {
-    count += 2;
-    this._router.navigate(['people/detail', count], {
-      replaceUrl: true,
-    });
+    this._router.navigate(['people/detail', ++count]);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
 }

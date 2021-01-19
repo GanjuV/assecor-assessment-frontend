@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Logger } from '@app/@core';
 import { IChips } from '@app/@shared/components/chips/chips.interface';
 import { ChipDataService } from '@app/@shared/services';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { PlanetService } from '../../planet.service';
 import { IPlanet } from './detail.interface';
@@ -23,6 +23,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   films: IChips[] = [];
   errorMsg: string;
   showError = false;
+  private _subscription: Subscription;
 
   private _routeParamsSubscription: any;
   constructor(
@@ -38,7 +39,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   getFilmData() {
     this.isLoading = true;
-    this._planetService
+    this._subscription = this._planetService
       .getStarships(this.id)
       .pipe(
         finalize(() => {
@@ -51,16 +52,11 @@ export class DetailComponent implements OnInit, OnDestroy {
           this.planet = data;
           // residents
           forkJoin(data.residents.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: any) => {
-              this.residents.push({ name: obj.name });
-            });
+            this.getData(ele, 'name', this.residents);
           });
           // films
-          console.log(data.films, data.residents);
           forkJoin(data.films.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: any) => {
-              this.films.push({ name: obj.title });
-            });
+            this.getData(ele, 'title', this.films);
           });
         },
         (err) => {
@@ -69,6 +65,12 @@ export class DetailComponent implements OnInit, OnDestroy {
           log.error('Error: ' + err.message);
         }
       );
+  }
+
+  getData(dataObj: any, key: string, arry: any) {
+    dataObj.forEach((obj: any) => {
+      arry.push({ name: obj[key] });
+    });
   }
 
   getChipData(url: string) {
@@ -83,5 +85,6 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._routeParamsSubscription.unsubscribe();
+    this._subscription.unsubscribe();
   }
 }

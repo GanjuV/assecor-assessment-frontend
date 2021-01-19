@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogData, DialogService } from '@app/@shared';
-import { AddFilmComponent } from './pages/add-film/add-film.component';
 
 @Component({
   selector: 'app-film',

@@ -1,13 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
-import { merge } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-
+import { Title } from '@angular/platform-browser';
 import { environment } from '@env/environment';
-import { Logger, untilDestroyed } from '@core';
-import { I18nService } from '@app/i18n';
+import { Logger } from './@core';
+import { Subscription } from 'rxjs';
 
 const log = new Logger('App');
 
@@ -17,13 +14,10 @@ const log = new Logger('App');
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title,
-    private translateService: TranslateService,
-    private i18nService: I18nService
-  ) {}
+  title = '';
+  private _subscriptionStartIndex: Subscription;
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title) {}
 
   ngOnInit() {
     // Setup logger
@@ -33,13 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     log.debug('init');
 
-    // Setup translations
-    this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
-
     const onNavigationEnd = this.router.events.pipe(filter((event) => event instanceof NavigationEnd));
-
-    // Change page title on navigation or language change, based on route data
-    merge(this.translateService.onLangChange, onNavigationEnd)
+    this._subscriptionStartIndex = onNavigationEnd
       .pipe(
         map(() => {
           let route = this.activatedRoute;
@@ -49,18 +38,17 @@ export class AppComponent implements OnInit, OnDestroy {
           return route;
         }),
         filter((route) => route.outlet === 'primary'),
-        switchMap((route) => route.data),
-        untilDestroyed(this)
+        switchMap((route) => route.data)
       )
       .subscribe((event) => {
         const title = event.title;
         if (title) {
-          this.titleService.setTitle(this.translateService.instant(title));
+          this.titleService.setTitle(title);
         }
       });
   }
 
   ngOnDestroy() {
-    this.i18nService.destroy();
+    this._subscriptionStartIndex.unsubscribe();
   }
 }

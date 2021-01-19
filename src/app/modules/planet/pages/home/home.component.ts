@@ -4,6 +4,7 @@ import { Logger } from '@app/@core';
 import { PlanetService } from '../../planet.service';
 import { finalize } from 'rxjs/operators';
 import { IPlanet } from '../detail/detail.interface';
+import { Subscription } from 'rxjs';
 
 const log = new Logger('PlanetHomeComponent');
 
@@ -17,12 +18,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMsg: string;
   showError = false;
+  private _subscription: Subscription;
 
   constructor(private _planetService: PlanetService, private _router: Router) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this._planetService
+    this._subscription = this._planetService
       .getAllPlanets()
       .pipe(
         finalize(() => {
@@ -44,11 +46,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openDetailPage(item: any, count: number) {
-    count += 2;
-    this._router.navigate(['planet/detail', count], {
-      replaceUrl: true,
-    });
+    this._router.navigate(['planet/detail', ++count]);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
 }

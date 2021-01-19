@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Logger } from '@app/@core';
 import { IChips } from '@app/@shared/components/chips/chips.interface';
 import { ChipDataService } from '@app/@shared/services';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { FilmService } from '../../film.service';
 import { IFilm } from './detail.interface';
@@ -25,7 +25,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   species: IChips[] = [];
   errorMsg: string;
   showError = false;
-
+  private _subscription: Subscription;
   private _routeParamsSubscription: any;
   constructor(
     private _filmService: FilmService,
@@ -40,7 +40,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   getFilmData() {
     this.isLoading = true;
-    this._filmService
+    this._subscription = this._filmService
       .getFilm(this.id)
       .pipe(
         finalize(() => {
@@ -52,30 +52,22 @@ export class DetailComponent implements OnInit, OnDestroy {
           this.showError = false;
           this.film = data;
           log.info(data);
-          // character
-          forkJoin(data.characters.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: any) => {
-              this.character.push({ name: obj.name });
-            });
-          });
+
+          forkJoin(data.characters.map((ele) => this.getChipData(ele))).subscribe((ele: any) =>
+            this.getData(ele, 'name', this.character)
+          );
           // planet
-          forkJoin(data.planets.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: any) => {
-              this.planet.push({ name: obj.name });
-            });
-          });
+          forkJoin(data.planets.map((ele) => this.getChipData(ele))).subscribe((ele: any) =>
+            this.getData(ele, 'name', this.planet)
+          );
           // ship
-          forkJoin(data.starships.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: any) => {
-              this.ship.push({ name: obj.name });
-            });
-          });
+          forkJoin(data.starships.map((ele) => this.getChipData(ele))).subscribe((ele: any) =>
+            this.getData(ele, 'name', this.ship)
+          );
           // character
-          forkJoin(data.species.map((ele) => this.getChipData(ele))).subscribe((ele: any) => {
-            ele.forEach((obj: any) => {
-              this.species.push({ name: obj.name });
-            });
-          });
+          forkJoin(data.species.map((ele) => this.getChipData(ele))).subscribe((ele: any) =>
+            this.getData(ele, 'name', this.species)
+          );
         },
         (err) => {
           this.showError = true;
@@ -83,6 +75,12 @@ export class DetailComponent implements OnInit, OnDestroy {
           log.error('Error: ' + err.message);
         }
       );
+  }
+
+  getData(dataObj: any, key: string, arry: any) {
+    dataObj.forEach((obj: any) => {
+      arry.push({ name: obj[key] });
+    });
   }
 
   getChipData(url: string) {
@@ -97,5 +95,6 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._routeParamsSubscription.unsubscribe();
+    this._subscription.unsubscribe();
   }
 }
